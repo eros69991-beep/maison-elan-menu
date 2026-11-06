@@ -1,0 +1,2431 @@
+:root {
+  --serif:
+    "Cormorant Garamond",
+    "Times New Roman",
+    serif;
+
+  --chinese-serif:
+    "Noto Serif SC",
+    "Songti SC",
+    serif;
+
+  --background: #eee7dc;
+  --paper: #f8f4ed;
+  --dark: #1f1d1a;
+  --dark-soft: #2a2723;
+  --wine: #6d2530;
+  --gold: #c7a76b;
+  --gold-light: #e2c789;
+  --text: #27231f;
+  --muted: #756e64;
+  --line: rgba(54, 45, 35, 0.15);
+  --white: #f8f3e9;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+
+  overflow-x: hidden;
+
+  background: var(--background);
+  color: var(--text);
+
+  font-family:
+    var(--chinese-serif),
+    serif;
+
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  font: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+/* =========================
+   首页
+========================= */
+
+.hero {
+  position: relative;
+
+  display: flex;
+
+  min-height: 100vh;
+  min-height: 100svh;
+
+  overflow: hidden;
+
+  background: #171512;
+  color: var(--white);
+}
+
+.hero__background {
+  position: absolute;
+  inset: 0;
+
+  background-image: url("./hero.webp");
+  background-position: center;
+  background-size: cover;
+
+  transform: scale(1.05);
+
+  animation: heroZoom 10s ease-out both;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(10, 9, 8, 0.72) 0%,
+      rgba(10, 9, 8, 0.25) 35%,
+      rgba(10, 9, 8, 0.43) 67%,
+      rgba(10, 9, 8, 0.82) 100%
+    ),
+    radial-gradient(
+      circle at center,
+      transparent 20%,
+      rgba(0, 0, 0, 0.36) 100%
+    );
+}
+
+.hero__header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10;
+
+  display: flex;
+  width: 100%;
+
+  align-items: center;
+  justify-content: space-between;
+
+  padding:
+    max(22px, env(safe-area-inset-top))
+    clamp(20px, 4vw, 64px)
+    20px;
+}
+
+.brand-mini {
+  display: inline-flex;
+
+  align-items: center;
+  gap: 13px;
+
+  color: var(--white);
+  text-decoration: none;
+}
+
+.brand-mini__mark {
+  display: grid;
+
+  width: 48px;
+  height: 48px;
+
+  place-items: center;
+
+  border: 1px solid rgba(226, 199, 137, 0.76);
+  border-radius: 50%;
+
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 23px;
+}
+
+.brand-mini__text {
+  display: flex;
+
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-mini__text strong {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 500;
+
+  letter-spacing: 0.16em;
+}
+
+.brand-mini__text small {
+  color: rgba(248, 243, 233, 0.65);
+
+  font-size: 10px;
+
+  letter-spacing: 0.18em;
+}
+
+.header-menu-button {
+  padding: 10px 2px;
+
+  border: 0;
+  border-bottom: 1px solid rgba(226, 199, 137, 0.72);
+
+  background: transparent;
+  color: var(--white);
+
+  cursor: pointer;
+
+  font-family: var(--serif);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+
+  transition:
+    color 180ms ease,
+    border-color 180ms ease;
+}
+
+.header-menu-button:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 2;
+
+  width: min(960px, calc(100% - 40px));
+
+  margin: auto;
+  padding: 130px 0 125px;
+
+  text-align: center;
+
+  animation: contentEnter 1.1s ease-out both;
+}
+
+.hero__eyebrow {
+  margin: 0 0 25px;
+
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: clamp(11px, 1vw, 14px);
+  font-weight: 500;
+
+  letter-spacing: 0.48em;
+  text-indent: 0.48em;
+}
+
+.hero__title {
+  margin: 0;
+
+  color: var(--white);
+
+  font-family: var(--serif);
+  font-size: clamp(66px, 9.4vw, 132px);
+  font-weight: 400;
+
+  line-height: 0.78;
+  letter-spacing: 0.025em;
+
+  text-shadow:
+    0 9px 34px rgba(0, 0, 0, 0.5),
+    0 1px 1px rgba(255, 255, 255, 0.05);
+}
+
+.hero__title span {
+  display: block;
+
+  margin-top: 14px;
+
+  color: var(--gold-light);
+
+  font-style: italic;
+  font-weight: 400;
+
+  letter-spacing: 0.075em;
+
+  text-shadow:
+    0 9px 30px rgba(0, 0, 0, 0.52),
+    0 0 22px rgba(226, 199, 137, 0.1);
+}
+
+.hero__divider {
+  display: flex;
+
+  width: min(290px, 64vw);
+
+  align-items: center;
+  gap: 15px;
+
+  margin: 39px auto 27px;
+}
+
+.hero__divider span {
+  height: 1px;
+  flex: 1;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(226, 199, 137, 0.8)
+  );
+}
+
+.hero__divider span:last-child {
+  background: linear-gradient(
+    to left,
+    transparent,
+    rgba(226, 199, 137, 0.8)
+  );
+}
+
+.hero__divider i {
+  width: 7px;
+  height: 7px;
+
+  border: 1px solid var(--gold-light);
+
+  transform: rotate(45deg);
+}
+
+.hero__chinese-name {
+  margin: 0;
+
+  font-size: clamp(19px, 2.3vw, 29px);
+  font-weight: 400;
+
+  letter-spacing: 0.36em;
+  text-indent: 0.36em;
+}
+
+.hero__description {
+  margin: 16px 0 0;
+
+  color: #d8cec0;
+
+  font-size: clamp(13px, 1.5vw, 17px);
+
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+}
+
+.primary-button {
+  display: inline-flex;
+
+  min-width: 210px;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+
+  margin-top: 39px;
+  padding: 15px 30px;
+
+  border: 1px solid rgba(226, 199, 137, 0.72);
+
+  background: rgba(16, 14, 12, 0.28);
+  color: var(--white);
+
+  cursor: pointer;
+
+  backdrop-filter: blur(7px);
+
+  transition:
+    background 180ms ease,
+    color 180ms ease,
+    transform 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.primary-button span {
+  font-size: 13px;
+
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+}
+
+.primary-button__english {
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 9px;
+
+  letter-spacing: 0.17em;
+}
+
+.primary-button:hover {
+  background: var(--gold-light);
+  color: #24211d;
+
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+
+  transform: translateY(-2px);
+}
+
+.primary-button:hover .primary-button__english {
+  color: var(--wine);
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  left: 50%;
+  z-index: 4;
+
+  display: flex;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  padding: 8px;
+
+  border: 0;
+
+  background: transparent;
+  color: rgba(248, 243, 233, 0.54);
+
+  cursor: pointer;
+
+  transform: translateX(-50%);
+}
+
+.scroll-hint span {
+  font-family: var(--serif);
+  font-size: 9px;
+
+  letter-spacing: 0.32em;
+  white-space: nowrap;
+}
+
+.scroll-hint i {
+  position: relative;
+
+  display: block;
+
+  width: 1px;
+  height: 42px;
+
+  overflow: hidden;
+
+  background: rgba(248, 243, 233, 0.23);
+}
+
+.scroll-hint i::after {
+  position: absolute;
+  top: -100%;
+  left: 0;
+
+  width: 100%;
+  height: 65%;
+
+  background: var(--gold-light);
+
+  content: "";
+
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+/* =========================
+   菜单介绍
+========================= */
+
+.menu-intro {
+  padding: 110px 24px 80px;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(199, 167, 107, 0.16),
+      transparent 38%
+    ),
+    var(--paper);
+}
+
+.menu-intro__inner {
+  width: min(780px, 100%);
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.section-eyebrow {
+  margin: 0 0 16px;
+
+  color: var(--wine);
+
+  font-family: var(--serif);
+  font-size: 12px;
+  font-weight: 500;
+
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
+}
+
+.menu-intro h2 {
+  margin: 0;
+
+  font-family: var(--chinese-serif);
+  font-size: clamp(38px, 5vw, 62px);
+  font-weight: 400;
+
+  letter-spacing: 0.08em;
+}
+
+.menu-intro__description {
+  max-width: 660px;
+
+  margin: 27px auto 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  line-height: 2;
+
+  letter-spacing: 0.04em;
+}
+
+.menu-intro__ornament {
+  display: flex;
+
+  width: min(360px, 76vw);
+
+  align-items: center;
+  gap: 17px;
+
+  margin: 42px auto 0;
+}
+
+.menu-intro__ornament span {
+  height: 1px;
+  flex: 1;
+
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(109, 37, 48, 0.48)
+  );
+}
+
+.menu-intro__ornament span:last-child {
+  background: linear-gradient(
+    to left,
+    transparent,
+    rgba(109, 37, 48, 0.48)
+  );
+}
+
+.menu-intro__ornament i {
+  color: var(--wine);
+
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: normal;
+
+  letter-spacing: 0.1em;
+}
+
+/* =========================
+   分类导航
+========================= */
+
+.menu-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+
+  border-top: 1px solid rgba(61, 48, 34, 0.08);
+  border-bottom: 1px solid rgba(61, 48, 34, 0.11);
+
+  background: rgba(248, 244, 237, 0.94);
+
+  backdrop-filter: blur(14px);
+}
+
+.menu-nav__inner {
+  display: flex;
+
+  width: min(1180px, 100%);
+
+  margin: 0 auto;
+  padding: 0 20px;
+
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.menu-nav__inner::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-nav__button {
+  position: relative;
+
+  flex: 0 0 auto;
+
+  padding: 21px 17px 18px;
+
+  border: 0;
+
+  background: transparent;
+  color: #7b7369;
+
+  cursor: pointer;
+
+  font-size: 13px;
+  white-space: nowrap;
+
+  transition: color 180ms ease;
+}
+
+.menu-nav__button::after {
+  position: absolute;
+  right: 17px;
+  bottom: -1px;
+  left: 17px;
+
+  height: 2px;
+
+  background: var(--wine);
+
+  content: "";
+
+  transform: scaleX(0);
+  transform-origin: center;
+
+  transition: transform 180ms ease;
+}
+
+.menu-nav__button:hover,
+.menu-nav__button.is-active {
+  color: var(--wine);
+}
+
+.menu-nav__button.is-active::after {
+  transform: scaleX(1);
+}
+
+/* =========================
+   菜单主体
+========================= */
+
+.menu-content {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(151, 116, 69, 0.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      rgba(151, 116, 69, 0.03) 1px,
+      transparent 1px
+    ),
+    var(--background);
+
+  background-size: 44px 44px;
+}
+
+.menu-section {
+  width: min(1180px, calc(100% - 48px));
+
+  margin: 0 auto;
+  padding: 112px 0;
+
+  scroll-margin-top: 78px;
+
+  border-bottom: 1px solid rgba(55, 44, 31, 0.12);
+}
+
+.section-heading {
+  display: grid;
+
+  grid-template-columns: 180px minmax(230px, 1fr) minmax(260px, 420px);
+  gap: 35px;
+
+  align-items: end;
+
+  margin-bottom: 48px;
+}
+
+.section-heading__number {
+  margin: 0 0 7px;
+
+  color: var(--gold);
+
+  font-family: var(--serif);
+  font-size: 15px;
+
+  letter-spacing: 0.18em;
+}
+
+.section-heading__english {
+  margin: 0;
+
+  color: var(--wine);
+
+  font-family: var(--serif);
+  font-size: 12px;
+
+  letter-spacing: 0.24em;
+}
+
+.section-heading h2 {
+  margin: 0;
+
+  font-size: clamp(34px, 4vw, 54px);
+  font-weight: 400;
+
+  letter-spacing: 0.08em;
+}
+
+.section-heading > p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 13px;
+  line-height: 1.9;
+}
+
+/* =========================
+   菜品卡片
+========================= */
+
+.dish-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.featured-grid {
+  display: grid;
+
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.dish-card {
+  min-width: 0;
+  overflow: hidden;
+
+  border: 1px solid rgba(64, 49, 32, 0.12);
+
+  background: rgba(248, 244, 237, 0.8);
+
+  box-shadow: 0 9px 32px rgba(48, 37, 24, 0.04);
+
+  transition:
+    transform 240ms ease,
+    box-shadow 240ms ease,
+    border-color 240ms ease;
+}
+
+.dish-card:hover {
+  border-color: rgba(109, 37, 48, 0.24);
+
+  box-shadow: 0 22px 50px rgba(48, 37, 24, 0.1);
+
+  transform: translateY(-6px);
+}
+
+.dish-card--featured {
+  grid-row: span 2;
+}
+
+.dish-card__image-wrap {
+  position: relative;
+
+  aspect-ratio: 4 / 3;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at center,
+      #4b4237,
+      #27221d
+    );
+}
+
+.dish-card--featured .dish-card__image-wrap {
+  height: calc(100% - 170px);
+  min-height: 420px;
+
+  aspect-ratio: auto;
+}
+
+.dish-card__image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition:
+    transform 700ms cubic-bezier(0.2, 0.65, 0.3, 1),
+    filter 400ms ease;
+}
+
+.dish-card:hover .dish-card__image {
+  transform: scale(1.045);
+}
+
+.dish-card__image-wrap::after {
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      180deg,
+      transparent 55%,
+      rgba(19, 16, 13, 0.18) 100%
+    );
+
+  content: "";
+
+  pointer-events: none;
+}
+
+.dish-card__badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+
+  padding: 8px 12px;
+
+  border: 1px solid rgba(226, 199, 137, 0.55);
+
+  background: rgba(26, 22, 18, 0.72);
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 10px;
+
+  letter-spacing: 0.2em;
+
+  backdrop-filter: blur(8px);
+}
+
+.dish-card__body {
+  padding: 23px 22px 25px;
+}
+
+.dish-card__heading {
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.dish-card__heading h3 {
+  margin: 0;
+
+  font-size: 18px;
+  font-weight: 500;
+
+  line-height: 1.5;
+}
+
+.dish-card__heading p {
+  margin: 7px 0 0;
+
+  color: #8d8173;
+
+  font-family: var(--serif);
+  font-size: 13px;
+
+  letter-spacing: 0.04em;
+}
+
+.dish-card__heading strong {
+  flex: 0 0 auto;
+
+  color: var(--wine);
+
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+}
+
+.dish-card__description {
+  margin: 18px 0 0;
+  padding-top: 17px;
+
+  border-top: 1px solid var(--line);
+
+  color: var(--muted);
+
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+/* 图片加载失败提示 */
+
+.dish-card__image-wrap.image-missing::before,
+.wine-card__image-wrap.image-missing::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+
+  width: calc(100% - 40px);
+
+  color: rgba(255, 255, 255, 0.68);
+
+  content: attr(data-fallback);
+
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-align: center;
+
+  transform: translate(-50%, -50%);
+}
+
+/* =========================
+   葡萄酒
+========================= */
+
+.menu-section--wine {
+  width: 100%;
+  max-width: none;
+
+  padding: 112px max(24px, calc((100vw - 1180px) / 2));
+
+  border-bottom: 0;
+
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(199, 167, 107, 0.12),
+      transparent 35%
+    ),
+    #201d1a;
+
+  color: var(--white);
+}
+
+.section-heading--light .section-heading__english {
+  color: var(--gold-light);
+}
+
+.section-heading--light h2 {
+  color: var(--white);
+}
+
+.section-heading--light > p {
+  color: rgba(248, 243, 233, 0.58);
+}
+
+.wine-grid {
+  display: grid;
+
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.wine-card {
+  overflow: hidden;
+
+  border: 1px solid rgba(226, 199, 137, 0.16);
+
+  background: rgba(255, 255, 255, 0.035);
+
+  transition:
+    transform 240ms ease,
+    border-color 240ms ease,
+    background 240ms ease;
+}
+
+.wine-card:hover {
+  border-color: rgba(226, 199, 137, 0.42);
+
+  background: rgba(255, 255, 255, 0.065);
+
+  transform: translateY(-6px);
+}
+
+.wine-card__image-wrap {
+  position: relative;
+
+  height: 340px;
+
+  overflow: hidden;
+
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      rgba(210, 187, 143, 0.12),
+      transparent 38%
+    ),
+    #181614;
+}
+
+.wine-card__image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 650ms ease;
+}
+
+.wine-card:hover .wine-card__image {
+  transform: scale(1.035);
+}
+
+.wine-card__body {
+  padding: 23px 18px 25px;
+}
+
+.wine-card__region {
+  margin: 0 0 15px;
+
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 9px;
+
+  letter-spacing: 0.16em;
+}
+
+.wine-card h3 {
+  margin: 0;
+
+  font-size: 17px;
+  font-weight: 400;
+
+  line-height: 1.5;
+}
+
+.wine-card__english {
+  min-height: 38px;
+
+  margin: 6px 0 0;
+
+  color: rgba(248, 243, 233, 0.54);
+
+  font-family: var(--serif);
+  font-size: 13px;
+}
+
+.wine-card__prices {
+  display: flex;
+
+  flex-wrap: wrap;
+  gap: 12px;
+
+  margin-top: 18px;
+  padding-top: 16px;
+
+  border-top: 1px solid rgba(226, 199, 137, 0.14);
+
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 14px;
+}
+
+/* =========================
+   页脚
+========================= */
+
+.footer {
+  padding: 65px 24px;
+
+  background: #151311;
+  color: rgba(248, 243, 233, 0.55);
+
+  text-align: center;
+}
+
+.footer__brand {
+  display: inline-flex;
+
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  color: var(--white);
+  text-decoration: none;
+}
+
+.footer__brand span {
+  display: grid;
+
+  width: 54px;
+  height: 54px;
+
+  place-items: center;
+
+  border: 1px solid rgba(226, 199, 137, 0.52);
+  border-radius: 50%;
+
+  color: var(--gold-light);
+
+  font-family: var(--serif);
+  font-size: 22px;
+}
+
+.footer__brand strong {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 400;
+
+  letter-spacing: 0.2em;
+}
+
+.footer > p {
+  margin: 19px 0 0;
+
+  font-size: 11px;
+
+  letter-spacing: 0.15em;
+}
+
+.back-to-top {
+  margin-top: 30px;
+  padding: 11px 23px;
+
+  border: 1px solid rgba(226, 199, 137, 0.28);
+
+  background: transparent;
+  color: rgba(248, 243, 233, 0.7);
+
+  cursor: pointer;
+
+  font-size: 11px;
+
+  letter-spacing: 0.18em;
+
+  transition:
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.back-to-top:hover {
+  border-color: var(--gold-light);
+  color: var(--gold-light);
+}
+
+/* =========================
+   进入动画
+========================= */
+
+.reveal-section {
+  opacity: 0;
+
+  transform: translateY(28px);
+
+  transition:
+    opacity 700ms ease,
+    transform 700ms ease;
+}
+
+.reveal-section.is-visible {
+  opacity: 1;
+
+  transform: translateY(0);
+}
+
+@keyframes heroZoom {
+  from {
+    transform: scale(1.1);
+  }
+
+  to {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes contentEnter {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scrollLine {
+  0% {
+    top: -75%;
+  }
+
+  60%,
+  100% {
+    top: 110%;
+  }
+}
+
+/* =========================
+   平板
+========================= */
+
+@media (max-width: 1050px) {
+  .section-heading {
+    grid-template-columns: 130px minmax(200px, 1fr) minmax(230px, 330px);
+    gap: 25px;
+  }
+
+  .dish-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .wine-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================
+   手机端
+========================= */
+
+@media (max-width: 700px) {
+  .hero__background {
+    background-position: 35% center;
+  }
+
+  .hero__header {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .brand-mini__text {
+    display: none;
+  }
+
+  .brand-mini__mark {
+    width: 40px;
+    height: 40px;
+
+    font-size: 19px;
+  }
+
+  .hero__content {
+    width: calc(100% - 34px);
+
+    padding-top: 115px;
+    padding-bottom: 130px;
+  }
+
+  .hero__eyebrow {
+    margin-bottom: 20px;
+
+    font-size: 10px;
+
+    letter-spacing: 0.28em;
+    text-indent: 0.28em;
+  }
+
+  .hero__title {
+    font-size: clamp(58px, 21vw, 88px);
+  }
+
+  .hero__divider {
+    margin-top: 31px;
+    margin-bottom: 23px;
+  }
+
+  .hero__chinese-name {
+    font-size: 19px;
+
+    letter-spacing: 0.27em;
+    text-indent: 0.27em;
+  }
+
+  .hero__description {
+    margin-top: 13px;
+
+    font-size: 12px;
+
+    letter-spacing: 0.16em;
+    text-indent: 0.16em;
+  }
+
+  .primary-button {
+    min-width: 190px;
+
+    margin-top: 33px;
+  }
+
+  .scroll-hint {
+    bottom: 14px;
+  }
+
+  .scroll-hint span {
+    display: none;
+  }
+
+  .menu-intro {
+    padding: 78px 22px 62px;
+  }
+
+  .menu-intro__description {
+    font-size: 13px;
+    line-height: 1.9;
+  }
+
+  .menu-nav__inner {
+    justify-content: flex-start;
+
+    padding: 0 12px;
+  }
+
+  .menu-nav__button {
+    padding: 17px 13px 15px;
+
+    font-size: 12px;
+  }
+
+  .menu-nav__button::after {
+    right: 13px;
+    left: 13px;
+  }
+
+  .menu-section {
+    width: calc(100% - 30px);
+
+    padding: 76px 0;
+
+    scroll-margin-top: 62px;
+  }
+
+  .section-heading {
+    display: block;
+
+    margin-bottom: 30px;
+  }
+
+  .section-heading__number {
+    display: inline-block;
+
+    margin-right: 8px;
+  }
+
+  .section-heading__english {
+    display: inline-block;
+  }
+
+  .section-heading h2 {
+    margin-top: 16px;
+
+    font-size: 34px;
+  }
+
+  .section-heading > p {
+    margin-top: 16px;
+
+    font-size: 12px;
+  }
+
+  .dish-grid,
+  .featured-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .dish-card--featured {
+    grid-row: auto;
+  }
+
+  .dish-card--featured .dish-card__image-wrap {
+    height: auto;
+    min-height: 0;
+
+    aspect-ratio: 4 / 3;
+  }
+
+  .dish-card__body {
+    padding: 19px 17px 21px;
+  }
+
+  .dish-card__heading h3 {
+    font-size: 16px;
+  }
+
+  .dish-card__heading p {
+    font-size: 12px;
+  }
+
+  .dish-card__heading strong {
+    font-size: 18px;
+  }
+
+  .menu-section--wine {
+    width: 100%;
+
+    padding-right: 15px;
+    padding-left: 15px;
+  }
+
+  .wine-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .wine-card {
+    display: grid;
+
+    grid-template-columns: 42% 58%;
+  }
+
+  .wine-card__image-wrap {
+    height: 260px;
+  }
+
+  .wine-card__body {
+    display: flex;
+
+    min-width: 0;
+
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 18px 16px;
+  }
+
+  .wine-card__english {
+    min-height: 0;
+  }
+
+  .wine-card__prices {
+    flex-direction: column;
+    gap: 5px;
+
+    margin-top: 14px;
+  }
+}
+
+/* =========================
+   小屏手机
+========================= */
+
+@media (max-width: 390px) {
+  .hero__title {
+    font-size: 56px;
+  }
+
+  .hero__chinese-name {
+    font-size: 17px;
+  }
+
+  .dish-card__heading {
+    gap: 10px;
+  }
+
+  .wine-card {
+    grid-template-columns: 40% 60%;
+  }
+
+  .wine-card__image-wrap {
+    height: 235px;
+  }
+}
+
+/* 减少动画模式 */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .reveal-section {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* 动态菜单加载状态 */
+.menu-loading,
+.menu-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 42px 20px;
+  text-align: center;
+  color: rgba(31, 35, 32, 0.62);
+  font-family: "Noto Serif SC", serif;
+  letter-spacing: 0.08em;
+}
+
+.menu-section--wine .menu-loading,
+.menu-section--wine .menu-empty {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+
+/* =========================
+   点餐交互与购物车
+========================= */
+
+body.has-cart .footer {
+  padding-bottom: 145px;
+}
+
+body.cart-open {
+  overflow: hidden;
+}
+
+.dish-card__action {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+  padding-top: 17px;
+  border-top: 1px solid var(--line);
+}
+
+.dish-card__description + .dish-card__action {
+  margin-top: 18px;
+}
+
+.add-item-button,
+.quantity-control {
+  min-height: 40px;
+  border: 1px solid rgba(109, 37, 48, 0.28);
+  background: transparent;
+  color: var(--wine);
+}
+
+.add-item-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 118px;
+  padding: 9px 14px;
+  cursor: pointer;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  transition: background 180ms ease, color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.add-item-button span {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.add-item-button:hover {
+  border-color: var(--wine);
+  background: var(--wine);
+  color: var(--white);
+  transform: translateY(-1px);
+}
+
+.quantity-control {
+  display: inline-grid;
+  grid-template-columns: 38px 40px 38px;
+  align-items: center;
+  overflow: hidden;
+}
+
+.quantity-control button {
+  height: 38px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+  transition: background 160ms ease;
+}
+
+.quantity-control button:hover {
+  background: rgba(109, 37, 48, 0.08);
+}
+
+.quantity-control strong {
+  display: grid;
+  height: 38px;
+  place-items: center;
+  border-right: 1px solid rgba(109, 37, 48, 0.18);
+  border-left: 1px solid rgba(109, 37, 48, 0.18);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.wine-card__prices {
+  display: none;
+}
+
+.wine-card__options {
+  display: grid;
+  gap: 11px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 199, 137, 0.14);
+}
+
+.wine-option {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.wine-option > div:first-child {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.wine-option span {
+  color: rgba(248, 243, 233, 0.58);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.wine-option strong {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.add-item-button.quantity-control--light,
+.quantity-control--light {
+  min-height: 34px;
+  border-color: rgba(226, 199, 137, 0.34);
+  color: var(--gold-light);
+}
+
+.add-item-button.quantity-control--light {
+  min-width: 76px;
+  padding: 7px 9px;
+  font-size: 10px;
+}
+
+.add-item-button.quantity-control--light:hover {
+  border-color: var(--gold-light);
+  background: var(--gold-light);
+  color: #1d1915;
+}
+
+.quantity-control--light {
+  grid-template-columns: 30px 30px 30px;
+}
+
+.quantity-control--light button,
+.quantity-control--light strong {
+  height: 32px;
+}
+
+.quantity-control--light button:hover {
+  background: rgba(226, 199, 137, 0.12);
+}
+
+.quantity-control--light strong {
+  border-color: rgba(226, 199, 137, 0.18);
+  font-size: 14px;
+}
+
+.cart-bar {
+  position: fixed;
+  right: 0;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  left: 0;
+  z-index: 50;
+  width: min(620px, calc(100% - 28px));
+  margin: 0 auto;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(24px);
+  transition: opacity 220ms ease, transform 220ms ease;
+}
+
+.cart-bar.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.cart-bar__button {
+  display: grid;
+  width: 100%;
+  min-height: 74px;
+  grid-template-columns: 48px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 18px 10px 12px;
+  border: 1px solid rgba(226, 199, 137, 0.34);
+  background: rgba(25, 22, 19, 0.96);
+  color: var(--white);
+  cursor: pointer;
+  box-shadow: 0 18px 50px rgba(18, 14, 10, 0.28);
+  text-align: left;
+  backdrop-filter: blur(18px);
+}
+
+.cart-bar__icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border: 1px solid rgba(226, 199, 137, 0.58);
+  border-radius: 50%;
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 17px;
+}
+
+.cart-bar__summary {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.cart-bar__summary strong {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.cart-bar__summary small {
+  overflow: hidden;
+  color: rgba(248, 243, 233, 0.5);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-bar__total {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 24px;
+}
+
+.cart-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: rgba(12, 10, 8, 0.58);
+  opacity: 0;
+  transition: opacity 260ms ease;
+  backdrop-filter: blur(5px);
+}
+
+.cart-overlay.is-visible {
+  opacity: 1;
+}
+
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 90;
+  display: grid;
+  width: min(460px, 100%);
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  background: var(--paper);
+  box-shadow: -24px 0 70px rgba(18, 14, 10, 0.24);
+  transform: translateX(104%);
+  transition: transform 280ms cubic-bezier(0.22, 0.75, 0.25, 1);
+}
+
+.cart-drawer.is-open {
+  transform: translateX(0);
+}
+
+.cart-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: max(26px, env(safe-area-inset-top)) 24px 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cart-drawer__header p {
+  margin: 0 0 5px;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: 0.24em;
+}
+
+.cart-drawer__header h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.cart-close {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 25px;
+  font-weight: 200;
+}
+
+.cart-drawer__body {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 20px 24px 26px;
+}
+
+.cart-empty {
+  padding: 68px 20px;
+  text-align: center;
+}
+
+.cart-empty > span {
+  display: grid;
+  width: 58px;
+  height: 58px;
+  margin: 0 auto 22px;
+  place-items: center;
+  border: 1px solid rgba(109, 37, 48, 0.3);
+  border-radius: 50%;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 20px;
+}
+
+.cart-empty h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.cart-empty p {
+  max-width: 280px;
+  margin: 13px auto 24px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.cart-empty button {
+  padding: 11px 20px;
+  border: 1px solid rgba(109, 37, 48, 0.32);
+  background: transparent;
+  color: var(--wine);
+  cursor: pointer;
+}
+
+.cart-items {
+  display: grid;
+  gap: 14px;
+}
+
+.cart-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: 13px;
+  min-width: 0;
+  padding: 12px 36px 12px 12px;
+  border: 1px solid rgba(64, 49, 32, 0.12);
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.cart-item > img {
+  width: 76px;
+  height: 82px;
+  object-fit: cover;
+}
+
+.cart-item__main {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.cart-item__heading {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cart-item__heading > div {
+  min-width: 0;
+}
+
+.cart-item__heading h3 {
+  overflow: hidden;
+  margin: 0;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-item__heading p {
+  overflow: hidden;
+  margin: 4px 0 0;
+  color: #8d8173;
+  font-family: var(--serif);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-item__heading > strong {
+  flex: 0 0 auto;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cart-item__bottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cart-item__bottom > span {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.quantity-control--compact {
+  min-height: 30px;
+  grid-template-columns: 28px 28px 28px;
+}
+
+.quantity-control--compact button,
+.quantity-control--compact strong {
+  height: 28px;
+}
+
+.quantity-control--compact strong {
+  font-size: 13px;
+}
+
+.cart-item__remove {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  width: 24px;
+  height: 24px;
+  border: 0;
+  background: transparent;
+  color: rgba(39, 35, 31, 0.46);
+  cursor: pointer;
+  font-family: Arial, sans-serif;
+  font-size: 18px;
+}
+
+.order-fields {
+  display: grid;
+  gap: 17px;
+  margin-top: 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+
+.order-fields label {
+  display: grid;
+  gap: 8px;
+}
+
+.order-fields label > span {
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.order-fields input,
+.order-fields textarea {
+  width: 100%;
+  border: 1px solid rgba(64, 49, 32, 0.16);
+  border-radius: 0;
+  outline: none;
+  background: rgba(255, 255, 255, 0.5);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  transition: border-color 160ms ease, background 160ms ease;
+}
+
+.order-fields input {
+  height: 44px;
+  padding: 0 13px;
+}
+
+.order-fields textarea {
+  resize: none;
+  padding: 12px 13px;
+  line-height: 1.7;
+}
+
+.order-fields input:focus,
+.order-fields textarea:focus {
+  border-color: rgba(109, 37, 48, 0.55);
+  background: #fff;
+}
+
+.cart-drawer__footer {
+  padding: 19px 24px max(22px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--line);
+  background: rgba(248, 244, 237, 0.97);
+  box-shadow: 0 -12px 30px rgba(38, 30, 22, 0.05);
+}
+
+.cart-summary-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.cart-summary-line strong {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.cart-summary-line--total {
+  margin: 12px 0 17px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  color: var(--text);
+  font-size: 15px;
+}
+
+.cart-summary-line--total strong {
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 25px;
+}
+
+.submit-order-button {
+  width: 100%;
+  min-height: 50px;
+  border: 1px solid var(--wine);
+  background: var(--wine);
+  color: var(--white);
+  cursor: pointer;
+  font-size: 13px;
+  letter-spacing: 0.12em;
+  transition: filter 160ms ease, transform 160ms ease;
+}
+
+.submit-order-button:hover {
+  filter: brightness(1.08);
+  transform: translateY(-1px);
+}
+
+.submit-order-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.46;
+  transform: none;
+}
+
+.cart-drawer__footer > p {
+  margin: 11px 0 0;
+  color: var(--muted);
+  font-size: 9px;
+  line-height: 1.65;
+  text-align: center;
+}
+
+.order-success {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  padding: 22px;
+  background: rgba(12, 10, 8, 0.74);
+  opacity: 0;
+  transition: opacity 240ms ease;
+  backdrop-filter: blur(8px);
+}
+
+.order-success.is-visible {
+  opacity: 1;
+}
+
+.order-success__card {
+  width: min(390px, 100%);
+  padding: 42px 28px 30px;
+  border: 1px solid rgba(226, 199, 137, 0.36);
+  background: var(--paper);
+  box-shadow: 0 30px 90px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transform: translateY(14px) scale(0.98);
+  transition: transform 260ms ease;
+}
+
+.order-success.is-visible .order-success__card {
+  transform: translateY(0) scale(1);
+}
+
+.order-success__mark {
+  display: grid;
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 22px;
+  place-items: center;
+  border: 1px solid rgba(109, 37, 48, 0.36);
+  border-radius: 50%;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 21px;
+}
+
+.order-success__card > p {
+  margin: 0 0 8px;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+}
+
+.order-success__card h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 500;
+}
+
+.order-success__card > strong {
+  display: block;
+  margin-top: 17px;
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.order-success__card > small {
+  display: block;
+  margin-top: 9px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.7;
+}
+
+.order-success__card button {
+  width: 100%;
+  min-height: 46px;
+  margin-top: 26px;
+  border: 1px solid var(--wine);
+  background: var(--wine);
+  color: var(--white);
+  cursor: pointer;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 760px) {
+  body.has-cart .footer {
+    padding-bottom: 130px;
+  }
+
+  .dish-card__action {
+    justify-content: stretch;
+  }
+
+  .dish-card__action > * {
+    width: 100%;
+  }
+
+  .quantity-control {
+    grid-template-columns: 1fr 52px 1fr;
+  }
+
+  .wine-option .quantity-control {
+    width: 94px;
+    grid-template-columns: 30px 34px 30px;
+  }
+
+  .cart-bar {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    width: calc(100% - 20px);
+  }
+
+  .cart-bar__button {
+    min-height: 66px;
+    grid-template-columns: 42px minmax(0, 1fr) auto;
+    gap: 11px;
+    padding: 9px 14px 9px 10px;
+  }
+
+  .cart-bar__icon {
+    width: 42px;
+    height: 42px;
+    font-size: 15px;
+  }
+
+  .cart-bar__total {
+    font-size: 21px;
+  }
+
+  .cart-drawer {
+    top: auto;
+    width: 100%;
+    max-height: min(88svh, 760px);
+    border-radius: 22px 22px 0 0;
+    transform: translateY(104%);
+  }
+
+  .cart-drawer.is-open {
+    transform: translateY(0);
+  }
+
+  .cart-drawer__header {
+    padding-top: 22px;
+  }
+
+  .cart-drawer__header::before {
+    position: absolute;
+    top: 9px;
+    left: 50%;
+    width: 42px;
+    height: 4px;
+    border-radius: 99px;
+    background: rgba(39, 35, 31, 0.16);
+    content: "";
+    transform: translateX(-50%);
+  }
+
+  .cart-drawer__body {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  .cart-drawer__footer {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+}
+
+@media (max-width: 390px) {
+  .cart-bar__summary small {
+    display: none;
+  }
+
+  .cart-bar__button {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+  }
+
+  .cart-bar__icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .cart-item {
+    grid-template-columns: 66px minmax(0, 1fr);
+  }
+
+  .cart-item > img {
+    width: 66px;
+    height: 76px;
+  }
+}
+
+
+/* V3.2：确保购物车按钮始终可以接收鼠标和触摸点击 */
+[data-cart-action] {
+  pointer-events: auto !important;
+  cursor: pointer;
+  touch-action: manipulation;
+  position: relative;
+  z-index: 2;
+}
+
+
+/* =========================
+   V3.3 隐藏层与点击修复
+   hidden 是页面功能状态，必须优先于组件自身的 display 设置。
+========================= */
+[hidden] {
+  display: none !important;
+}
+
+.order-success {
+  pointer-events: none;
+}
+
+.order-success.is-visible {
+  pointer-events: auto;
+}
+
+.cart-overlay {
+  pointer-events: none;
+}
+
+.cart-overlay.is-visible {
+  pointer-events: auto;
+}
+
+/* =========================
+   V3.4 二维码桌号绑定
+========================= */
+.hero__actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.table-chip {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 13px;
+  border: 1px solid rgba(226, 199, 137, 0.48);
+  background: rgba(18, 15, 12, 0.28);
+  color: var(--white);
+  backdrop-filter: blur(8px);
+}
+
+.table-chip span {
+  color: rgba(248, 243, 233, 0.62);
+  font-family: var(--serif);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+}
+
+.table-chip strong {
+  color: var(--gold-light);
+  font-family: var(--serif);
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.bound-table {
+  display: grid;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid rgba(109, 37, 48, 0.22);
+  background: rgba(109, 37, 48, 0.045);
+  transition: border-color 180ms ease, background 180ms ease, transform 180ms ease;
+}
+
+.bound-table__label {
+  color: var(--text);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+}
+
+.bound-table__value {
+  display: flex;
+  min-height: 43px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 13px;
+  border: 1px solid rgba(64, 49, 32, 0.13);
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.bound-table__value span {
+  color: var(--muted);
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+}
+
+.bound-table__value strong {
+  color: var(--wine);
+  font-family: var(--serif);
+  font-size: 19px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+}
+
+.bound-table p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.bound-table.is-missing {
+  border-color: rgba(156, 95, 35, 0.28);
+  background: rgba(156, 95, 35, 0.055);
+}
+
+.bound-table.is-missing .bound-table__value strong,
+.bound-table.is-missing p {
+  color: #9c5f23;
+}
+
+.bound-table.is-alert {
+  animation: tableBindingAlert 620ms ease;
+}
+
+@keyframes tableBindingAlert {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+}
+
+@media (max-width: 700px) {
+  .hero__actions {
+    gap: 10px;
+  }
+
+  .table-chip {
+    min-height: 34px;
+    gap: 7px;
+    padding: 6px 9px;
+  }
+
+  .table-chip span {
+    display: none;
+  }
+
+  .table-chip strong {
+    font-size: 14px;
+  }
+}
+
+/* hidden 状态必须始终压过组件 display */
+[hidden] {
+  display: none !important;
+}

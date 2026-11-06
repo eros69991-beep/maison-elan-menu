@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-admin-version="3.6.1">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="MAISON ÉLAN 餐厅云端订单管理台" />
+  <title>MAISON ÉLAN · 商家订单台</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Noto+Serif+SC:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./admin-v36.css?v=3.6.1" />
+</head>
+<body>
+  <header class="admin-header">
+    <a class="admin-brand" href="./admin.html" aria-label="刷新订单台">
+      <span>ME</span>
+      <div>
+        <strong>MAISON ÉLAN</strong>
+        <small>RESTAURANT ORDER DESK</small>
+      </div>
+    </a>
+
+    <div class="admin-header__actions">
+      <span class="mode-badge" id="modeBadge">LOCAL DEMO</span>
+      <span class="admin-user" id="adminUser" hidden></span>
+      <a class="preview-link" href="./index.html?table=A01" target="_blank" rel="noopener">打开 A01 顾客菜单</a>
+      <button class="sound-button" id="soundButton" type="button" aria-pressed="false">开启新单提示音</button>
+      <button class="logout-button" id="logoutButton" type="button" hidden>退出登录</button>
+    </div>
+  </header>
+
+  <main class="admin-main">
+    <section class="login-screen" id="loginScreen" hidden>
+      <div class="login-card">
+        <span class="login-card__mark">ME</span>
+        <p>STAFF ACCESS</p>
+        <h1>员工登录</h1>
+        <small>登录后才可读取和处理云端订单</small>
+
+        <form id="loginForm" novalidate>
+          <label>
+            <span>员工邮箱</span>
+            <input id="loginEmail" type="email" autocomplete="username" placeholder="manager@example.com" required />
+          </label>
+          <label>
+            <span>密码</span>
+            <div class="password-field">
+              <input id="loginPassword" type="password" autocomplete="current-password" placeholder="请输入密码" aria-describedby="capsLockHint" required />
+              <button class="password-toggle" id="passwordToggle" type="button" aria-label="显示密码" aria-pressed="false">显示</button>
+            </div>
+            <small class="caps-lock-hint" id="capsLockHint" hidden>大写锁定已开启，请检查密码大小写。</small>
+          </label>
+          <button id="loginButton" type="submit">登录订单台</button>
+        </form>
+
+        <p class="login-message is-info" id="loginMessage">请输入在 Supabase Auth 中创建的员工账号。</p>
+      </div>
+    </section>
+
+    <div id="adminWorkspace" hidden>
+      <section class="admin-intro">
+        <div>
+          <p>LIVE ORDER MANAGEMENT</p>
+          <h1>商家订单台</h1>
+          <span id="syncStatus">正在读取订单…</span>
+        </div>
+        <aside class="demo-notice">
+          <strong id="demoNoticeTitle">本机联动演示</strong>
+          <p id="demoNoticeText">顾客菜单与订单台需从同一个 Live Server 地址打开。</p>
+        </aside>
+      </section>
+
+      <section class="stats-grid" aria-label="订单统计">
+        <article><span>待接单</span><strong id="pendingCount">0</strong></article>
+        <article><span>制作中</span><strong id="preparingCount">0</strong></article>
+        <article><span>待上菜</span><strong id="readyCount">0</strong></article>
+        <article><span>今日完成</span><strong id="completedCount">0</strong></article>
+        <article class="stats-grid__revenue"><span>今日营业额</span><strong id="todayRevenue">¥0</strong></article>
+      </section>
+
+      <section class="order-workspace">
+        <div class="workspace-toolbar">
+          <div class="filter-tabs" id="filterTabs" role="tablist" aria-label="订单筛选">
+            <button class="is-active" data-filter="active" type="button">进行中 <span id="activeBadge">0</span></button>
+            <button data-filter="pending" type="button">待接单</button>
+            <button data-filter="preparing" type="button">制作中</button>
+            <button data-filter="ready" type="button">待上菜</button>
+            <button data-filter="completed" type="button">已完成</button>
+            <button data-filter="all" type="button">全部</button>
+          </div>
+          <div class="toolbar-actions">
+            <button id="refreshButton" type="button">刷新</button>
+            <button id="clearCompletedButton" type="button">清理已完成</button>
+          </div>
+        </div>
+
+        <div class="empty-state" id="emptyState" hidden>
+          <span>ME</span>
+          <h2>当前没有对应订单</h2>
+          <p>在顾客菜单中使用带桌号的网址下单，订单会自动出现在这里。</p>
+          <a href="./index.html?table=A01" target="_blank" rel="noopener">打开测试菜单</a>
+        </div>
+
+        <div class="orders-grid" id="ordersGrid"></div>
+      </section>
+    </div>
+  </main>
+
+  <div class="new-order-toast" id="newOrderToast" role="status" aria-live="polite" hidden>
+    <span>NEW ORDER</span>
+    <strong id="newOrderToastText">收到新订单</strong>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
+  <script src="./supabase-config-v36.js?v=3.6.1"></script>
+  <script src="./admin-v36.js?v=3.6.1"></script>
+</body>
+</html>
