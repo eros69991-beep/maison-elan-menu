@@ -1,8 +1,199 @@
 "use strict";
 
 const menuData = window.MENU_DATA || {};
-const CART_STORAGE_KEY = "maison-elan-cart-v2";
-const APP_VERSION = "3.6.0";
+const CART_STORAGE_KEY = "maison-elan-cart-v3";
+const LANG_STORAGE_KEY = "maison-elan-lang";
+const APP_VERSION = "3.7.0";
+
+// ---------------------------------------------------------------
+// 语言：中文 / English
+// ---------------------------------------------------------------
+// 静态文字：index.html 里带 data-i18n="key" 的元素，中文原文写在 HTML 里，
+// 英文在 STATIC_EN 里；切换语言时替换 textContent。
+// 动态文字（按钮、提示、弹窗）：用 t("key") 从 MESSAGES 里取。
+const STATIC_EN = {
+  brandSub: "Modern French Dining",
+  heroName: "Modern French Restaurant",
+  heroDesc: "Contemporary French cuisine & wine",
+  heroCta: "View the Menu",
+  introTitle: "The Menu",
+  introDesc: "Rooted in classic French technique, shaped by modern taste and the seasons — from delicate starters to a considered wine list.",
+  nav_rec: "Chef's Picks", nav_app: "Starters", nav_soup: "Soups", nav_main: "Mains",
+  nav_dessert: "Desserts", nav_drink: "Drinks", nav_wine: "Wine",
+  title_rec: "Chef's Selection", title_app: "Starters", title_soup: "Soups", title_main: "Mains",
+  title_dessert: "Desserts", title_drink: "Drinks", title_wine: "Wine List",
+  recDesc: "Our most characteristic dishes — the best place to start on a first visit.",
+  appDesc: "Fresh, refined and layered, to open the palate for what follows.",
+  soupDesc: "Slow-simmered and carefully seasoned to keep the warmth and purity of each ingredient.",
+  mainDesc: "Classic French technique with a modern presentation.",
+  dessertDesc: "Gentle sweetness and light textures for an elegant finish.",
+  drinkDesc: "From crisp sparkling water to rich hot chocolate.",
+  wineDesc: "Classic French appellations and an elegant sparkling, chosen to pair with the menu.",
+  loading: "Loading menu…",
+  cartItemsUnit: "items",
+  cartBarHint: "Tap to review your order",
+  cartTitle: "Your Order",
+  emptyTitle: "Nothing selected yet",
+  emptyDesc: "Add dishes from the menu. Your selection is saved on this device.",
+  continueBrowsing: "Keep browsing",
+  tableLabel: "Table",
+  noteLabel: "Notes for the kitchen",
+  itemCount: "Items",
+  itemsUnit: "",
+  total: "Total",
+  successTitle: "Order placed",
+  done: "Done",
+  backToTop: "Back to top",
+  footerLine: "MAISON ÉLAN · Modern French Dining",
+  // 属性（aria-label / placeholder）
+  closeCart: "Close order",
+  notePlaceholder: "e.g. less salt, dessert after mains (optional)",
+  home: "Back to top",
+  scrollDown: "Scroll to the menu",
+  menuNav: "Menu sections"
+};
+
+const MESSAGES = {
+  zh: {
+    addToOrder: "加入订单",
+    quantity: "数量控制",
+    decrease: "减少数量",
+    increase: "增加数量",
+    glass: "单杯",
+    bottle: "整瓶",
+    each: "/ 份",
+    remove: "移除",
+    emptySection: "该分类暂时没有菜品。",
+    emptyWine: "暂时没有葡萄酒。",
+    imageMissing: "图片暂未加载",
+    tableUnknown: "未识别",
+    tableBound: "桌号已由二维码自动识别，客人无法手动修改。",
+    tableMissing: "未识别桌号，请扫描桌面二维码重新进入菜单。",
+    noticeNoTable: "未绑定桌号时可以浏览和加购，但不能确认下单。",
+    noticeCloud: "订单将实时发送到餐厅，价格以餐厅系统为准。",
+    noticeLocal: "当前为本机演示模式；填写 Supabase 配置后可实现不同设备实时接单。",
+    pageTitle: (table) => `${table}桌 · MAISON ÉLAN`,
+    submit: "确认下单",
+    scanQr: "请扫描桌上二维码",
+    sendingCloud: "正在发送到餐厅…",
+    sendingLocal: "正在提交…",
+    orderFailed: "订单暂时无法发送到餐厅，请检查网络后重试，或直接联系服务员。购物车内容仍然保留。",
+    orderTooFrequent: "这一桌刚刚下过单，请稍等一分钟再提交，或直接联系服务员。",
+    orderItemGone: "部分菜品刚刚售罄或已下架，菜单已更新，请检查订单后重新提交。",
+    successCloud: (table, count, total) => `${table} · ${count} 件 · ${total} · 已实时发送到餐厅`,
+    successLocal: (table, count, total) => `${table} · ${count} 件 · ${total} · 已进入本机演示订单台`
+  },
+  en: {
+    addToOrder: "Add to order",
+    quantity: "Quantity",
+    decrease: "Decrease quantity",
+    increase: "Increase quantity",
+    glass: "Glass",
+    bottle: "Bottle",
+    each: "each",
+    remove: "Remove",
+    emptySection: "Nothing in this section right now.",
+    emptyWine: "No wines available right now.",
+    imageMissing: "Image unavailable",
+    tableUnknown: "Not detected",
+    tableBound: "Your table was detected from the QR code.",
+    tableMissing: "Table not detected. Please scan the QR code on your table again.",
+    noticeNoTable: "You can browse and add dishes, but ordering needs a table QR code.",
+    noticeCloud: "Your order goes straight to the restaurant. Prices are confirmed by the restaurant's system.",
+    noticeLocal: "Local demo mode: orders stay on this device until Supabase is configured.",
+    pageTitle: (table) => `Table ${table} · MAISON ÉLAN`,
+    submit: "Place order",
+    scanQr: "Scan the QR code on your table",
+    sendingCloud: "Sending to the restaurant…",
+    sendingLocal: "Placing order…",
+    orderFailed: "We couldn't reach the restaurant. Please check your connection and try again, or ask your server. Your order is still saved.",
+    orderTooFrequent: "This table just placed an order. Please wait a minute before ordering again, or ask your server.",
+    orderItemGone: "Some items just sold out. The menu has been updated — please review your order and try again.",
+    successCloud: (table, count, total) => `Table ${table} · ${count} ${count === 1 ? "item" : "items"} · ${total} · sent to the restaurant`,
+    successLocal: (table, count, total) => `Table ${table} · ${count} ${count === 1 ? "item" : "items"} · ${total} · saved to the demo order desk`
+  }
+};
+
+function readSavedLang() {
+  try {
+    const saved = localStorage.getItem(LANG_STORAGE_KEY);
+    if (saved === "zh" || saved === "en") return saved;
+  } catch (error) {
+    // 隐私模式下可能无法读取，使用默认语言。
+  }
+  return /^zh\b/i.test(navigator.language || "") ? "zh" : "en";
+}
+
+let currentLang = readSavedLang();
+
+function t(key, ...args) {
+  const value = MESSAGES[currentLang][key] ?? MESSAGES.zh[key] ?? key;
+  return typeof value === "function" ? value(...args) : value;
+}
+
+function isEnglish() {
+  return currentLang === "en";
+}
+
+function applyStaticText() {
+  document.documentElement.lang = isEnglish() ? "en" : "zh-CN";
+
+  document.querySelectorAll("[data-i18n]").forEach((element) => {
+    if (element.dataset.zh === undefined) {
+      element.dataset.zh = element.textContent.trim();
+    }
+    const key = element.dataset.i18n;
+    element.textContent = isEnglish() ? (STATIC_EN[key] ?? element.dataset.zh) : element.dataset.zh;
+  });
+
+  [["data-i18n-aria", "aria-label", "zhAria"], ["data-i18n-placeholder", "placeholder", "zhPlaceholder"]].forEach(([marker, attribute, store]) => {
+    document.querySelectorAll(`[${marker}]`).forEach((element) => {
+      if (element.dataset[store] === undefined) {
+        element.dataset[store] = element.getAttribute(attribute) || "";
+      }
+      const key = element.getAttribute(marker);
+      element.setAttribute(attribute, isEnglish() ? (STATIC_EN[key] ?? element.dataset[store]) : element.dataset[store]);
+    });
+  });
+
+  document.querySelectorAll("#langToggle [data-lang]").forEach((label) => {
+    label.classList.toggle("is-active", label.dataset.lang === currentLang);
+  });
+
+  if (!TABLE_CODE) {
+    document.title = isEnglish()
+      ? "MAISON ÉLAN · Modern French Dining"
+      : "MAISON ÉLAN · 逸澜法式餐厅";
+  }
+}
+
+function setLanguage(lang) {
+  currentLang = lang === "en" ? "en" : "zh";
+  try {
+    localStorage.setItem(LANG_STORAGE_KEY, currentLang);
+  } catch (error) {
+    // 无法保存时只影响下次打开，本次切换照常生效。
+  }
+  applyStaticText();
+  rebuildProductIndex();
+  renderMenu();
+  installImageFallbacks();
+  updateTableBindingUI();
+  updateCartUI();
+}
+
+// 菜名：中文模式显示中文名 + 英文小字；英文模式只显示英文名。
+function displayName(item) {
+  return isEnglish() ? item.englishName : item.name;
+}
+
+function secondaryName(item) {
+  return isEnglish() ? "" : item.englishName;
+}
+
+function displayDescription(item) {
+  return isEnglish() ? (item.descriptionEn || "") : (item.description || "");
+}
 const cloudBridge = window.MAISON_CLOUD || {};
 const cloudClient = cloudBridge.client || null;
 const CLOUD_MODE = Boolean(cloudBridge.isConfigured && cloudClient);
@@ -38,46 +229,48 @@ function saveOrderToDesk(order) {
   }
 }
 
-function toCloudOrder(order) {
-  return {
-    order_number: order.orderNumber,
-    table_number: order.tableNumber,
-    note: order.note,
-    status: order.status,
-    item_count: order.itemCount,
-    items: order.items,
-    total: order.total,
-    created_at: order.createdAt,
-    updated_at: order.updatedAt
-  };
-}
-
-async function sendOrder(order) {
-  // 无论是否启用云端，都保留一份本机备份，方便断网排查。
-  const localSaved = saveOrderToDesk(order);
-
-  if (!CLOUD_MODE) {
-    return { ok: localSaved, mode: "local" };
-  }
-
+// 云端下单：只发送「菜品 key + 数量」。
+// 价格、总价、订单号都由数据库函数 place_order 决定，
+// 所以就算有人在浏览器里改了价格，也影响不到实际订单。
+async function sendCloudOrder({ tableNumber, note, entries }) {
   try {
-    const { error } = await cloudClient
-      .from("orders")
-      .insert(toCloudOrder(order));
+    const { data, error } = await cloudClient.rpc("place_order", {
+      p_table: tableNumber,
+      p_note: note,
+      p_items: entries.map(({ product, quantity }) => ({ key: product.key, quantity }))
+    });
 
     if (error) {
       throw error;
     }
 
-    return { ok: true, mode: "cloud" };
+    return {
+      ok: true,
+      mode: "cloud",
+      orderNumber: data.order_number,
+      itemCount: Number(data.item_count),
+      total: Number(data.total)
+    };
   } catch (error) {
     console.error("云端订单提交失败。", error);
-    return { ok: false, mode: "cloud", error, localSaved };
+    const message = String(error?.message || "");
+    const reason = message.includes("too many orders")
+      ? "tooFrequent"
+      : message.includes("unavailable item")
+        ? "itemGone"
+        : "failed";
+    return { ok: false, mode: "cloud", reason, error };
   }
 }
 
+// 本机演示模式：没有数据库，订单只存在这台设备的浏览器里。
+function sendLocalOrder(order) {
+  return { ok: saveOrderToDesk(order), mode: "local", ...order };
+}
+
 const cart = loadCart();
-const productIndex = buildProductIndex();
+const productIndex = new Map();
+rebuildProductIndex();
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -92,10 +285,10 @@ function formatPrice(value) {
   const number = Number(value);
 
   if (!Number.isFinite(number)) {
-    return "¥0";
+    return "$0";
   }
 
-  return `¥${Number.isInteger(number) ? number : number.toFixed(2)}`;
+  return `$${Number.isInteger(number) ? number : number.toFixed(2)}`;
 }
 
 function normalizeTableCode(value) {
@@ -116,8 +309,10 @@ function readTableCodeFromURL() {
   }
 }
 
-function buildProductIndex() {
-  const index = new Map();
+// 可点项目索引：key → 项目。菜品的 key 是 id；葡萄酒拆成 id::glass 和 id::bottle。
+// 已下架（unavailable）的项目不进索引，所以既不显示，也加不进购物车。
+function rebuildProductIndex() {
+  productIndex.clear();
 
   Object.entries(menuData).forEach(([sectionId, items]) => {
     if (!Array.isArray(items)) {
@@ -126,29 +321,26 @@ function buildProductIndex() {
 
     items.forEach((item) => {
       if (sectionId === "wines") {
-        index.set(`${String(item.id)}::glass`, {
-          key: `${String(item.id)}::glass`,
-          id: item.id,
-          name: `${item.name} · 单杯`,
-          englishName: `${item.englishName} · Glass`,
-          image: item.image,
-          price: Number(item.glassPrice),
-          option: "glass"
-        });
-
-        index.set(`${String(item.id)}::bottle`, {
-          key: `${String(item.id)}::bottle`,
-          id: item.id,
-          name: `${item.name} · 整瓶`,
-          englishName: `${item.englishName} · Bottle`,
-          image: item.image,
-          price: Number(item.bottlePrice),
-          option: "bottle"
-        });
+        [["glass", item.glassPrice, item.glassUnavailable], ["bottle", item.bottlePrice, item.bottleUnavailable]]
+          .forEach(([option, price, unavailable]) => {
+            if (unavailable) return;
+            const key = `${String(item.id)}::${option}`;
+            productIndex.set(key, {
+              key,
+              id: item.id,
+              name: `${item.name} · ${MESSAGES.zh[option]}`,
+              englishName: `${item.englishName} · ${MESSAGES.en[option]}`,
+              image: item.image,
+              price: Number(price),
+              option
+            });
+          });
         return;
       }
 
-      index.set(String(item.id), {
+      if (item.unavailable) return;
+
+      productIndex.set(String(item.id), {
         key: String(item.id),
         id: item.id,
         name: item.name,
@@ -159,8 +351,56 @@ function buildProductIndex() {
       });
     });
   });
+}
 
-  return index;
+// 线上模式：从数据库 menu_items 读取真实价格和上下架状态，覆盖 menu-data 里的数字。
+// 读取失败时保留 menu-data 的价格用于展示；实际收费始终由 place_order 计算。
+async function loadLivePrices() {
+  if (!CLOUD_MODE) return false;
+
+  try {
+    const { data, error } = await cloudClient
+      .from("menu_items")
+      .select("key, price");
+
+    if (error) throw error;
+    if (!Array.isArray(data) || data.length === 0) return false;
+
+    const live = new Map(data.map((row) => [row.key, Number(row.price)]));
+
+    Object.entries(menuData).forEach(([sectionId, items]) => {
+      if (!Array.isArray(items)) return;
+      items.forEach((item) => {
+        if (sectionId === "wines") {
+          const glass = live.get(`${item.id}::glass`);
+          const bottle = live.get(`${item.id}::bottle`);
+          item.glassUnavailable = glass === undefined;
+          item.bottleUnavailable = bottle === undefined;
+          if (glass !== undefined) item.glassPrice = glass;
+          if (bottle !== undefined) item.bottlePrice = bottle;
+          item.unavailable = item.glassUnavailable && item.bottleUnavailable;
+          return;
+        }
+        const price = live.get(String(item.id));
+        item.unavailable = price === undefined;
+        if (price !== undefined) item.price = price;
+      });
+    });
+
+    return true;
+  } catch (error) {
+    console.warn("实时价格读取失败，暂用本地菜单价格展示。", error);
+    return false;
+  }
+}
+
+async function refreshLiveMenu() {
+  const updated = await loadLivePrices();
+  if (!updated) return;
+  rebuildProductIndex();
+  renderMenu();
+  installImageFallbacks();
+  updateCartUI();
 }
 
 function loadCart() {
@@ -245,16 +485,16 @@ function createQuantityControl(key, light = false) {
     return `
       <button class="add-item-button${lightClass}" type="button" data-cart-action="add" data-cart-key="${escapeHTML(key)}">
         <span aria-hidden="true">＋</span>
-        加入订单
+        ${escapeHTML(t("addToOrder"))}
       </button>
     `;
   }
 
   return `
-    <div class="quantity-control${lightClass}" aria-label="数量控制">
-      <button type="button" data-cart-action="decrease" data-cart-key="${escapeHTML(key)}" aria-label="减少数量">−</button>
+    <div class="quantity-control${lightClass}" aria-label="${escapeHTML(t("quantity"))}">
+      <button type="button" data-cart-action="decrease" data-cart-key="${escapeHTML(key)}" aria-label="${escapeHTML(t("decrease"))}">−</button>
       <strong>${quantity}</strong>
-      <button type="button" data-cart-action="increase" data-cart-key="${escapeHTML(key)}" aria-label="增加数量">＋</button>
+      <button type="button" data-cart-action="increase" data-cart-key="${escapeHTML(key)}" aria-label="${escapeHTML(t("increase"))}">＋</button>
     </div>
   `;
 }
@@ -268,9 +508,12 @@ function createDishCard(item) {
     ? `<span class="dish-card__badge">${escapeHTML(item.badge)}</span>`
     : "";
 
-  const descriptionHTML = item.description
-    ? `<p class="dish-card__description">${escapeHTML(item.description)}</p>`
+  const description = displayDescription(item);
+  const descriptionHTML = description
+    ? `<p class="dish-card__description">${escapeHTML(description)}</p>`
     : "";
+  const subtitle = secondaryName(item);
+  const subtitleHTML = subtitle ? `<p>${escapeHTML(subtitle)}</p>` : "";
 
   return `
     <article class="${cardClass}" data-menu-item-id="${escapeHTML(item.id)}">
@@ -278,7 +521,7 @@ function createDishCard(item) {
         <img
           class="dish-card__image"
           src="${escapeHTML(item.image)}"
-          alt="${escapeHTML(item.name)}"
+          alt="${escapeHTML(displayName(item))}"
           loading="lazy"
           decoding="async"
         />
@@ -288,8 +531,8 @@ function createDishCard(item) {
       <div class="dish-card__body">
         <div class="dish-card__heading">
           <div>
-            <h3>${escapeHTML(item.name)}</h3>
-            <p>${escapeHTML(item.englishName)}</p>
+            <h3>${escapeHTML(displayName(item))}</h3>
+            ${subtitleHTML}
           </div>
 
           <strong>${formatPrice(item.price)}</strong>
@@ -307,8 +550,12 @@ function createDishCard(item) {
 function createWineOption(item, option) {
   const isGlass = option === "glass";
   const key = `${item.id}::${option}`;
-  const label = isGlass ? "单杯" : "整瓶";
+  const label = t(option);
   const price = isGlass ? item.glassPrice : item.bottlePrice;
+
+  if (isGlass ? item.glassUnavailable : item.bottleUnavailable) {
+    return "";
+  }
 
   return `
     <div class="wine-option">
@@ -330,7 +577,7 @@ function createWineCard(item) {
         <img
           class="wine-card__image"
           src="${escapeHTML(item.image)}"
-          alt="${escapeHTML(item.name)}"
+          alt="${escapeHTML(displayName(item))}"
           loading="lazy"
           decoding="async"
         />
@@ -338,8 +585,8 @@ function createWineCard(item) {
 
       <div class="wine-card__body">
         <p class="wine-card__region">${escapeHTML(item.region)}</p>
-        <h3>${escapeHTML(item.name)}</h3>
-        <p class="wine-card__english">${escapeHTML(item.englishName)}</p>
+        <h3>${escapeHTML(displayName(item))}</h3>
+        ${secondaryName(item) ? `<p class="wine-card__english">${escapeHTML(secondaryName(item))}</p>` : ""}
         <div class="wine-card__options">
           ${createWineOption(item, "glass")}
           ${createWineOption(item, "bottle")}
@@ -352,14 +599,14 @@ function createWineCard(item) {
 function renderDishSection(sectionId, containerSelector) {
   const section = document.getElementById(sectionId);
   const container = section?.querySelector(containerSelector);
-  const items = menuData[sectionId];
+  const items = (menuData[sectionId] || []).filter((item) => !item.unavailable);
 
   if (!container) {
     return;
   }
 
-  if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = '<p class="menu-empty">该分类暂时没有菜品。</p>';
+  if (items.length === 0) {
+    container.innerHTML = `<p class="menu-empty">${escapeHTML(t("emptySection"))}</p>`;
     return;
   }
 
@@ -369,14 +616,14 @@ function renderDishSection(sectionId, containerSelector) {
 function renderWineSection() {
   const section = document.getElementById("wines");
   const container = section?.querySelector(".wine-grid");
-  const items = menuData.wines;
+  const items = (menuData.wines || []).filter((item) => !item.unavailable);
 
   if (!container) {
     return;
   }
 
-  if (!Array.isArray(items) || items.length === 0) {
-    container.innerHTML = '<p class="menu-empty">暂时没有葡萄酒。</p>';
+  if (items.length === 0) {
+    container.innerHTML = `<p class="menu-empty">${escapeHTML(t("emptyWine"))}</p>`;
     return;
   }
 
@@ -393,6 +640,7 @@ function renderMenu() {
   renderWineSection();
 }
 
+applyStaticText();
 renderMenu();
 
 const scrollButtons = document.querySelectorAll("[data-scroll-target]");
@@ -432,30 +680,28 @@ function updateTableBindingUI() {
 
   if (heroTableChip) heroTableChip.hidden = !hasTable;
   if (heroTableNumber) heroTableNumber.textContent = TABLE_CODE || "--";
-  if (boundTableNumber) boundTableNumber.textContent = TABLE_CODE || "未识别";
+  if (boundTableNumber) boundTableNumber.textContent = TABLE_CODE || t("tableUnknown");
 
   if (boundTable) {
     boundTable.classList.toggle("is-missing", !hasTable);
   }
 
   if (tableBindingHint) {
-    tableBindingHint.textContent = hasTable
-      ? "桌号已由二维码自动识别，客人无法手动修改。"
-      : "未识别桌号，请扫描桌面二维码重新进入菜单。";
+    tableBindingHint.textContent = hasTable ? t("tableBound") : t("tableMissing");
   }
 
   if (orderDemoNotice) {
     if (!hasTable) {
-      orderDemoNotice.textContent = "未绑定桌号时可以浏览和加购，但不能确认下单。";
+      orderDemoNotice.textContent = t("noticeNoTable");
     } else if (CLOUD_MODE) {
-      orderDemoNotice.textContent = "订单将实时发送到云端商家订单台，请确认网络连接正常。";
+      orderDemoNotice.textContent = t("noticeCloud");
     } else {
-      orderDemoNotice.textContent = "当前为本机演示模式；填写 Supabase 配置后可实现不同设备实时接单。";
+      orderDemoNotice.textContent = t("noticeLocal");
     }
   }
 
   if (hasTable) {
-    document.title = `${TABLE_CODE}桌 · MAISON ÉLAN`;
+    document.title = t("pageTitle", TABLE_CODE);
   }
 }
 
@@ -576,7 +822,7 @@ function installImageFallbacks() {
         return;
       }
 
-      imageWrapper.dataset.fallback = image.alt || "图片暂未加载";
+      imageWrapper.dataset.fallback = image.alt || t("imageMissing");
 
       image.addEventListener("error", () => {
         image.style.display = "none";
@@ -595,25 +841,25 @@ function renderCartItems() {
   cartItems.innerHTML = entries
     .map(({ product, quantity }) => `
       <article class="cart-item">
-        <img src="${escapeHTML(product.image)}" alt="${escapeHTML(product.name)}" loading="lazy" decoding="async" />
+        <img src="${escapeHTML(product.image)}" alt="${escapeHTML(displayName(product))}" loading="lazy" decoding="async" />
         <div class="cart-item__main">
           <div class="cart-item__heading">
             <div>
-              <h3>${escapeHTML(product.name)}</h3>
-              <p>${escapeHTML(product.englishName)}</p>
+              <h3>${escapeHTML(displayName(product))}</h3>
+              ${secondaryName(product) ? `<p>${escapeHTML(secondaryName(product))}</p>` : ""}
             </div>
             <strong>${formatPrice(product.price * quantity)}</strong>
           </div>
           <div class="cart-item__bottom">
-            <span>${formatPrice(product.price)} / 份</span>
+            <span>${formatPrice(product.price)} ${escapeHTML(t("each"))}</span>
             <div class="quantity-control quantity-control--compact">
-              <button type="button" data-cart-action="decrease" data-cart-key="${escapeHTML(product.key)}" aria-label="减少数量">−</button>
+              <button type="button" data-cart-action="decrease" data-cart-key="${escapeHTML(product.key)}" aria-label="${escapeHTML(t("decrease"))}">−</button>
               <strong>${quantity}</strong>
-              <button type="button" data-cart-action="increase" data-cart-key="${escapeHTML(product.key)}" aria-label="增加数量">＋</button>
+              <button type="button" data-cart-action="increase" data-cart-key="${escapeHTML(product.key)}" aria-label="${escapeHTML(t("increase"))}">＋</button>
             </div>
           </div>
         </div>
-        <button class="cart-item__remove" type="button" data-cart-action="remove" data-cart-key="${escapeHTML(product.key)}" aria-label="移除${escapeHTML(product.name)}">×</button>
+        <button class="cart-item__remove" type="button" data-cart-action="remove" data-cart-key="${escapeHTML(product.key)}" aria-label="${escapeHTML(`${t("remove")} ${displayName(product)}`)}">×</button>
       </article>
     `)
     .join("");
@@ -652,7 +898,7 @@ function updateCartUI() {
   if (cartFooter) cartFooter.hidden = !hasItems;
   if (submitOrderButton) {
     submitOrderButton.disabled = !hasItems || !TABLE_CODE;
-    submitOrderButton.textContent = TABLE_CODE ? "确认下单" : "请扫描桌上二维码";
+    submitOrderButton.textContent = TABLE_CODE ? t("submit") : t("scanQr");
   }
 
   // 每次更新数量控件或订单列表后，重新绑定新生成的按钮。
@@ -752,52 +998,65 @@ async function submitOrder() {
     return;
   }
 
-  const orderNumber = createOrderNumber();
   const tableNumber = TABLE_CODE;
-  const note = orderNoteInput?.value.trim() || "无备注";
-  const now = new Date().toISOString();
-  const order = {
-    orderNumber,
-    tableNumber,
-    note,
-    createdAt: now,
-    updatedAt: now,
-    status: "pending",
-    itemCount: summary.count,
-    items: entries.map(({ product, quantity }) => ({
-      key: product.key,
-      name: product.name,
-      englishName: product.englishName,
-      price: product.price,
-      quantity,
-      subtotal: product.price * quantity
-    })),
-    total: summary.total
-  };
+  const typedNote = orderNoteInput?.value.trim() || "";
 
-  const originalButtonText = submitOrderButton?.textContent || "确认下单";
+  const originalButtonText = submitOrderButton?.textContent || t("submit");
   if (submitOrderButton) {
     submitOrderButton.disabled = true;
-    submitOrderButton.textContent = CLOUD_MODE ? "正在发送到餐厅…" : "正在提交…";
+    submitOrderButton.textContent = CLOUD_MODE ? t("sendingCloud") : t("sendingLocal");
   }
 
-  const result = await sendOrder(order);
+  let result;
 
-  if (!result.ok && result.mode === "cloud") {
+  if (CLOUD_MODE) {
+    result = await sendCloudOrder({ tableNumber, note: typedNote, entries });
+  } else {
+    const now = new Date().toISOString();
+    result = sendLocalOrder({
+      orderNumber: createOrderNumber(),
+      tableNumber,
+      note: typedNote || "无备注",
+      createdAt: now,
+      updatedAt: now,
+      status: "pending",
+      itemCount: summary.count,
+      items: entries.map(({ product, quantity }) => ({
+        key: product.key,
+        name: product.name,
+        englishName: product.englishName,
+        price: product.price,
+        quantity,
+        subtotal: product.price * quantity
+      })),
+      total: summary.total
+    });
+  }
+
+  if (!result.ok) {
     if (submitOrderButton) {
       submitOrderButton.disabled = false;
       submitOrderButton.textContent = originalButtonText;
     }
 
-    window.alert("订单暂时无法发送到餐厅，请检查网络后重试，或直接联系服务员。购物车内容仍然保留。");
+    if (result.reason === "itemGone") {
+      await refreshLiveMenu();
+      window.alert(t("orderItemGone"));
+    } else if (result.reason === "tooFrequent") {
+      window.alert(t("orderTooFrequent"));
+    } else {
+      window.alert(t("orderFailed"));
+    }
     return;
   }
 
-  if (successOrderNumber) successOrderNumber.textContent = orderNumber;
+  // 成功页显示的是数据库返回的订单号和总价，不是浏览器自己算的。
+  const confirmedTotal = formatPrice(result.total);
+  if (successOrderNumber) successOrderNumber.textContent = result.orderNumber;
   if (successOrderDetail) {
     successOrderDetail.textContent = result.mode === "cloud"
-      ? `${tableNumber} · ${summary.count} 件 · ${formatPrice(summary.total)} · 已实时发送到餐厅`
-      : `${tableNumber} · ${summary.count} 件 · ${formatPrice(summary.total)} · 已进入本机演示订单台`;
+      ? t("successCloud", tableNumber, result.itemCount, confirmedTotal)
+      : t("successLocal", tableNumber, result.itemCount, confirmedTotal);
   }
 
   if (submitOrderButton) {
@@ -843,9 +1102,14 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
+document.getElementById("langToggle")?.addEventListener("click", () => {
+  setLanguage(isEnglish() ? "zh" : "en");
+});
+
 installImageFallbacks();
 updateTableBindingUI();
 updateCartUI();
+refreshLiveMenu();
 
 document.documentElement.dataset.cartReady = "true";
 window.MAISON_CART = {

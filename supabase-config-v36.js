@@ -4,8 +4,8 @@
 // Project URL 示例：https://abcdefghijk.supabase.co
 // Publishable key 示例：sb_publishable_xxxxxxxxxxxxxxxxx
 // 旧项目的 anon key（通常以 eyJ 开头）也可以使用。
-const MAISON_SUPABASE_URL = "https://adwtmirsgekmsdinhzpa.supabase.co";
-const MAISON_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0bmeILm3N9M6UFVszny2Ng_P7mRTYgN";
+const MAISON_SUPABASE_URL = "https://qjvimnhuvulfxwyiedri.supabase.co";
+const MAISON_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_nZqDOEHXAIBpwQAtyzLw0w_jL16y59B";
 
 (function initializeMaisonCloud() {
   const url = String(MAISON_SUPABASE_URL || "").trim();
@@ -48,7 +48,7 @@ const MAISON_SUPABASE_PUBLISHABLE_KEY = "sb_publishable_0bmeILm3N9M6UFVszny2Ng_P
   }
 
   window.MAISON_CLOUD = Object.freeze({
-    version: "3.6.0",
+    version: "3.7.0",
     isConfigured,
     client,
     url: isConfigured ? url : "",

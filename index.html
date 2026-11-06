@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html data-app-version="3.6" lang="zh-CN">
+<html data-app-version="3.7" lang="zh-CN">
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="MAISON ÉLAN 逸澜法式餐厅数字菜单" name="description"/>
+<meta content="MAISON ÉLAN · Modern French dining — digital menu and table ordering" name="description"/>
 <title>MAISON ÉLAN · 逸澜法式餐厅</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&amp;family=Noto+Serif+SC:wght@400;500&amp;display=swap" rel="stylesheet"/>
-<link href="./style-v36.css?v=3.6.0" rel="stylesheet"/>
+<link href="./style-v36.css?v=3.7.0" rel="stylesheet"/>
 <link as="image" href="./hero.webp" rel="preload" type="image/webp"/>
 </head>
 <body>
@@ -17,14 +17,15 @@
 <div aria-hidden="true" class="hero__background"></div>
 <div aria-hidden="true" class="hero__overlay"></div>
 <nav class="hero__header">
-<a aria-label="返回首页" class="brand-mini" href="#top">
+<a aria-label="返回首页" data-i18n-aria="home" class="brand-mini" href="#top">
 <span class="brand-mini__mark">ME</span>
 <span class="brand-mini__text">
 <strong>MAISON ÉLAN</strong>
-<small>逸澜法式餐厅</small>
+<small data-i18n="brandSub">逸澜法式餐厅</small>
 </span>
 </a>
 <div class="hero__actions">
+<button class="lang-toggle" id="langToggle" type="button" aria-label="切换语言 / Switch language"><span data-lang="zh">中</span><i aria-hidden="true">/</i><span data-lang="en">EN</span></button>
 <div class="table-chip" id="heroTableChip" hidden>
 <span>TABLE</span>
 <strong id="heroTableNumber">A01</strong>
@@ -45,18 +46,18 @@
 <i></i>
 <span></span>
 </div>
-<p class="hero__chinese-name">逸澜法式餐厅</p>
-<p class="hero__description">
+<p class="hero__chinese-name" data-i18n="heroName">逸澜法式餐厅</p>
+<p class="hero__description" data-i18n="heroDesc">
         当代法式料理与葡萄酒
       </p>
 <button class="primary-button" data-scroll-target="menu" type="button">
-<span>浏览菜单</span>
+<span data-i18n="heroCta">浏览菜单</span>
 <small class="primary-button__english">
           EXPLORE THE MENU
         </small>
 </button>
 </div>
-<button aria-label="向下浏览菜单" class="scroll-hint" data-scroll-target="menu" type="button">
+<button aria-label="向下浏览菜单" data-i18n-aria="scrollDown" class="scroll-hint" data-scroll-target="menu" type="button">
 <span>SCROLL TO DISCOVER</span>
 <i></i>
 </button>
@@ -66,8 +67,8 @@
 <section class="menu-intro reveal-section">
 <div class="menu-intro__inner">
 <p class="section-eyebrow">LA CARTE</p>
-<h2>逸澜菜单</h2>
-<p class="menu-intro__description">
+<h2 data-i18n="introTitle">逸澜菜单</h2>
+<p class="menu-intro__description" data-i18n="introDesc">
           以经典法式烹饪为基础，融入当代审美与季节风味。
           从精致前菜到精选葡萄酒，呈现一场克制而丰盛的用餐体验。
         </p>
@@ -79,27 +80,27 @@
 </div>
 </section>
 <!-- 分类导航 -->
-<nav aria-label="菜单分类" class="menu-nav">
+<nav aria-label="菜单分类" data-i18n-aria="menuNav" class="menu-nav">
 <div class="menu-nav__inner">
-<button class="menu-nav__button is-active" data-menu-target="recommendations" type="button">
+<button class="menu-nav__button is-active" data-menu-target="recommendations" type="button" data-i18n="nav_rec">
           主厨推荐
         </button>
-<button class="menu-nav__button" data-menu-target="appetizers" type="button">
+<button class="menu-nav__button" data-menu-target="appetizers" type="button" data-i18n="nav_app">
           前菜
         </button>
-<button class="menu-nav__button" data-menu-target="soups" type="button">
+<button class="menu-nav__button" data-menu-target="soups" type="button" data-i18n="nav_soup">
           汤品
         </button>
-<button class="menu-nav__button" data-menu-target="mains" type="button">
+<button class="menu-nav__button" data-menu-target="mains" type="button" data-i18n="nav_main">
           主菜
         </button>
-<button class="menu-nav__button" data-menu-target="desserts" type="button">
+<button class="menu-nav__button" data-menu-target="desserts" type="button" data-i18n="nav_dessert">
           甜品
         </button>
-<button class="menu-nav__button" data-menu-target="drinks" type="button">
+<button class="menu-nav__button" data-menu-target="drinks" type="button" data-i18n="nav_drink">
           饮品
         </button>
-<button class="menu-nav__button" data-menu-target="wines" type="button">
+<button class="menu-nav__button" data-menu-target="wines" type="button" data-i18n="nav_wine">
           精选葡萄酒
         </button>
 </div>
@@ -114,14 +115,14 @@
               CHEF'S SELECTION
             </p>
 </div>
-<h2>主厨推荐</h2>
-<p>
+<h2 data-i18n="title_rec">主厨推荐</h2>
+<p data-i18n="recDesc">
             汇集逸澜最具代表性的风味，
             适合作为初次到访的精选体验。
           </p>
 </div>
 <div class="featured-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 前菜 -->
@@ -133,14 +134,14 @@
               LES ENTRÉES
             </p>
 </div>
-<h2>前菜</h2>
-<p>
+<h2 data-i18n="title_app">前菜</h2>
+<p data-i18n="appDesc">
             清新、细腻且富有层次，
             为接下来的用餐体验打开味蕾。
           </p>
 </div>
 <div class="dish-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 汤品 -->
@@ -152,14 +153,14 @@
               LES SOUPES
             </p>
 </div>
-<h2>汤品</h2>
-<p>
+<h2 data-i18n="title_soup">汤品</h2>
+<p data-i18n="soupDesc">
             通过慢炖与细致调味，
             保留食材最温暖、纯粹的味道。
           </p>
 </div>
 <div class="dish-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 主菜 -->
@@ -171,14 +172,14 @@
               LES PLATS
             </p>
 </div>
-<h2>主菜</h2>
-<p>
+<h2 data-i18n="title_main">主菜</h2>
+<p data-i18n="mainDesc">
             经典法式技法与现代呈现，
             构成一场完整而丰盛的味觉体验。
           </p>
 </div>
 <div class="dish-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 甜品 -->
@@ -190,14 +191,14 @@
               LES DESSERTS
             </p>
 </div>
-<h2>甜品</h2>
-<p>
+<h2 data-i18n="title_dessert">甜品</h2>
+<p data-i18n="dessertDesc">
             以细腻的甜度与轻盈口感，
             为整场用餐留下优雅余韵。
           </p>
 </div>
 <div class="dish-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 饮品 -->
@@ -209,14 +210,14 @@
               LES BOISSONS
             </p>
 </div>
-<h2>饮品</h2>
-<p>
+<h2 data-i18n="title_drink">饮品</h2>
+<p data-i18n="drinkDesc">
             从清爽气泡到浓郁热可可，
             搭配不同时间与不同菜式。
           </p>
 </div>
 <div class="dish-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 <!-- 葡萄酒 -->
@@ -228,14 +229,14 @@
               LA CAVE
             </p>
 </div>
-<h2>精选葡萄酒</h2>
-<p>
+<h2 data-i18n="title_wine">精选葡萄酒</h2>
+<p data-i18n="wineDesc">
             精选法国经典产区与优雅起泡酒，
             与不同菜式形成更完整的味觉层次。
           </p>
 </div>
 <div class="wine-grid">
-          <p class="menu-loading">菜单加载中…</p>
+          <p class="menu-loading" data-i18n="loading">菜单加载中…</p>
         </div>
 </section>
 </div>
@@ -246,10 +247,10 @@
   <button class="cart-bar__button" id="openCartButton" type="button" aria-controls="cartDrawer" aria-expanded="false">
     <span class="cart-bar__icon" aria-hidden="true">ME</span>
     <span class="cart-bar__summary">
-      <strong><span id="cartCount">0</span> 件菜品</strong>
-      <small>点击查看订单明细</small>
+      <strong><span id="cartCount">0</span> <span data-i18n="cartItemsUnit">件菜品</span></strong>
+      <small data-i18n="cartBarHint">点击查看订单明细</small>
     </span>
-    <span class="cart-bar__total" id="cartTotal">¥0</span>
+    <span class="cart-bar__total" id="cartTotal">$0</span>
   </button>
 </div>
 
@@ -259,24 +260,24 @@
   <div class="cart-drawer__header">
     <div>
       <p>YOUR ORDER</p>
-      <h2 id="cartTitle">订单明细</h2>
+      <h2 id="cartTitle" data-i18n="cartTitle">订单明细</h2>
     </div>
-    <button class="cart-close" id="closeCartButton" type="button" aria-label="关闭订单明细">×</button>
+    <button class="cart-close" id="closeCartButton" type="button" aria-label="关闭订单明细" data-i18n-aria="closeCart">×</button>
   </div>
 
   <div class="cart-drawer__body">
     <div class="cart-empty" id="cartEmpty">
       <span>ME</span>
-      <h3>还没有选择菜品</h3>
-      <p>从菜单中添加喜欢的菜品，订单会自动保存在当前设备。</p>
-      <button id="continueBrowsingButton" type="button">继续浏览菜单</button>
+      <h3 data-i18n="emptyTitle">还没有选择菜品</h3>
+      <p data-i18n="emptyDesc">从菜单中添加喜欢的菜品，订单会自动保存在当前设备。</p>
+      <button id="continueBrowsingButton" type="button" data-i18n="continueBrowsing">继续浏览菜单</button>
     </div>
 
     <div class="cart-items" id="cartItems"></div>
 
     <div class="order-fields" id="orderFields">
       <div class="bound-table" id="boundTable">
-        <span class="bound-table__label">用餐桌号</span>
+        <span class="bound-table__label" data-i18n="tableLabel">用餐桌号</span>
         <div class="bound-table__value">
           <span>TABLE</span>
           <strong id="boundTableNumber">未识别</strong>
@@ -284,20 +285,20 @@
         <p id="tableBindingHint">桌号将由桌面二维码自动识别。</p>
       </div>
       <label>
-        <span>订单备注</span>
-        <textarea id="orderNote" rows="3" maxlength="120" placeholder="例如：少盐、甜品餐后上（可选）"></textarea>
+        <span data-i18n="noteLabel">订单备注</span>
+        <textarea id="orderNote" rows="3" maxlength="120" placeholder="例如：少盐、甜品餐后上（可选）" data-i18n-placeholder="notePlaceholder"></textarea>
       </label>
     </div>
   </div>
 
   <div class="cart-drawer__footer" id="cartFooter">
     <div class="cart-summary-line">
-      <span>菜品数量</span>
-      <strong><span id="drawerCartCount">0</span> 件</strong>
+      <span data-i18n="itemCount">菜品数量</span>
+      <strong><span id="drawerCartCount">0</span> <span data-i18n="itemsUnit">件</span></strong>
     </div>
     <div class="cart-summary-line cart-summary-line--total">
-      <span>合计</span>
-      <strong id="drawerCartTotal">¥0</strong>
+      <span data-i18n="total">合计</span>
+      <strong id="drawerCartTotal">$0</strong>
     </div>
     <button class="submit-order-button" id="submitOrderButton" type="button">确认下单</button>
     <p id="orderDemoNotice">当前为本机演示模式；填写 Supabase 配置后可实现不同设备实时接单。</p>
@@ -309,10 +310,10 @@
   <div class="order-success__card">
     <span class="order-success__mark">ME</span>
     <p>ORDER CONFIRMED</p>
-    <h2>订单已提交</h2>
+    <h2 data-i18n="successTitle">订单已提交</h2>
     <strong id="successOrderNumber">ME000000</strong>
     <small id="successOrderDetail">订单已进入餐厅订单台，请等待商家接单。</small>
-    <button id="finishOrderButton" type="button">完成</button>
+    <button id="finishOrderButton" type="button" data-i18n="done">完成</button>
   </div>
 </div>
 
@@ -321,16 +322,16 @@
 <span>ME</span>
 <strong>MAISON ÉLAN</strong>
 </a>
-<p>
+<p data-i18n="footerLine">
       逸澜法式餐厅 · Modern French Dining
     </p>
-<button class="back-to-top" data-scroll-target="top" type="button">
+<button class="back-to-top" data-scroll-target="top" type="button" data-i18n="backToTop">
       返回顶部
     </button>
 </footer>
-<script src="./menu-data-v36.js?v=3.6.0"></script>
+<script src="./menu-data-v36.js?v=3.7.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.3"></script>
-  <script src="./supabase-config-v36.js?v=3.6.1"></script>
-  <script src="./script-v36.js?v=3.6.1"></script>
+  <script src="./supabase-config-v36.js?v=3.7.0"></script>
+  <script src="./script-v36.js?v=3.7.0"></script>
 </body>
 </html>

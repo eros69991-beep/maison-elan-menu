@@ -2429,3 +2429,48 @@ body.cart-open {
 [hidden] {
   display: none !important;
 }
+
+/* ---------- v3.7 中 / EN 语言切换 ---------- */
+.lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  padding: 7px 12px;
+  border: 1px solid rgba(226, 199, 137, 0.48);
+  background: rgba(18, 15, 12, 0.28);
+  color: rgba(248, 243, 233, 0.55);
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  transition: border-color 180ms ease;
+}
+
+.lang-toggle:hover,
+.lang-toggle:focus-visible {
+  border-color: var(--gold-light);
+}
+
+.lang-toggle i {
+  font-style: normal;
+  opacity: 0.5;
+}
+
+.lang-toggle .is-active {
+  color: var(--gold-light);
+}
+
+/* 英文模式下按钮主文字已是英文，隐藏重复的英文小字 */
+html[lang="en"] .primary-button__english {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .lang-toggle {
+    min-height: 34px;
+    padding: 6px 9px;
+    font-size: 12px;
+  }
+}

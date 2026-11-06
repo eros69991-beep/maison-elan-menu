@@ -4,7 +4,7 @@ A QR-code ordering system for a fictional modern French restaurant. Guests scan 
 
 > Concept project. MAISON ÉLAN is not a real restaurant, and the dish photos are AI-generated.
 
-**Live demo:** _coming soon_
+**Live demo:** [maison-elan-menu.vercel.app/?table=A01](https://maison-elan-menu.vercel.app/?table=A01)
 
 ## Features
 
@@ -13,6 +13,8 @@ A QR-code ordering system for a fictional modern French restaurant. Guests scan 
 - Menu sections with a sticky category bar that follows your scroll
 - Cart with quantity controls, saved across page reloads
 - Order notes, then one tap to send the order to the kitchen
+- Chinese / English toggle, remembered across visits; opens in English unless the phone is set to Chinese
+- Prices in USD, loaded live from the database; sold-out items disappear from the menu
 
 **Staff order board** (`admin.html`)
 - Email and password login
@@ -31,7 +33,9 @@ A QR-code ordering system for a fictional modern French restaurant. Guests scan 
 
 ## Security
 
-- **Row Level Security** on every table. Guests can only *create* orders; they cannot read, change or delete any order
+- **Prices are never trusted from the browser.** Guests send only item keys and quantities to a Postgres function, `place_order`, which looks up the real prices in `menu_items`, calculates the total, generates the order number and writes the order. Guests have no direct write access to the `orders` table
+- `place_order` rejects unknown or sold-out items, invalid quantities and malformed table numbers, and limits each table to 3 orders per minute
+- **Row Level Security** on every table. Guests cannot read, change or delete any order
 - Only staff emails on a whitelist can read and update orders, checked inside the database by a `security definer` function
 - All user-supplied text is HTML-escaped before rendering, to prevent XSS
 - The Supabase publishable key in the frontend is public by design; access control is enforced by RLS, not by hiding the key
@@ -48,13 +52,13 @@ Open `/?table=A01` on your phone, place an order, and watch it appear on the ord
 
 ## Known limitations
 
-- **Order totals are calculated in the browser.** A technical user could edit the request and submit a wrong price. Fix in progress: move menu prices into the database and calculate totals server-side.
-- The table number comes from the URL, so it could be changed by hand.
-- There is no rate limiting on order creation.
-- The menu lives in `menu-data-v36.js`; staff cannot edit it from the order board yet.
+- The table number comes from the URL, so someone could change it by hand. A production version would use signed, per-table QR tokens.
+- Rate limiting is per table only (3 orders per minute); there is no per-device or per-IP limit.
+- Prices and availability are edited in Supabase's Table Editor (`menu_items`); there is no menu editor in the order board yet. Dish photos and descriptions still live in `menu-data-v36.js`.
+- The staff order board is in Chinese only.
 
 ## Run locally
 
 1. Open the folder in VS Code and start Live Server on `index.html`
 2. Visit `index.html?table=A01` for the guest menu and `admin.html` for the order board
-3. To connect your own Supabase project, follow [SETUP.zh-CN.md](./SETUP.zh-CN.md)
+3. To connect your own Supabase project, follow [SETUP.zh-CN.md](./SETUP.zh-CN.md): run `supabase-setup-v36.sql`, then `supabase-upgrade-v37.sql`

@@ -1,6 +1,6 @@
 "use strict";
 
-const APP_VERSION = "3.6.1";
+const APP_VERSION = "3.7.0";
 const ORDER_STORAGE_KEY = "maison-elan-orders-v1";
 const ORDER_CHANNEL_NAME = "maison-elan-orders";
 const cloudBridge = window.MAISON_CLOUD || {};
@@ -74,8 +74,8 @@ function escapeHTML(value) {
 
 function formatPrice(value) {
   const number = Number(value);
-  if (!Number.isFinite(number)) return "¥0";
-  return `¥${Number.isInteger(number) ? number : number.toFixed(2)}`;
+  if (!Number.isFinite(number)) return "$0";
+  return `$${Number.isInteger(number) ? number : number.toFixed(2)}`;
 }
 
 function normalizeOrder(raw) {
